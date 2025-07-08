@@ -1,0 +1,68 @@
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        EmployeeManager manager = new EmployeeManager();
+        Scanner sc = new Scanner(System.in);
+        int choice;
+
+        do {
+            System.out.println("\n===== Employee Payroll Management System =====");
+            System.out.println("1. Add Employee");
+            System.out.println("2. List Employees");
+            System.out.println("3. Generate Payslip");
+            System.out.println("4. Remove Employee");
+            System.out.println("5. Exit");
+            System.out.print("Enter your choice: ");
+            choice = sc.nextInt();
+
+            switch (choice) {
+                case 1:
+                    System.out.print("Enter ID: ");
+                    int id = sc.nextInt();
+                    sc.nextLine(); // consume newline
+                    System.out.print("Enter Name: ");
+                    String name = sc.nextLine();
+                    System.out.print("Enter Department: ");
+                    String dept = sc.nextLine();
+                    System.out.print("Enter Basic Salary: ");
+                    double salary = sc.nextDouble();
+                    Employee emp = new Employee(id, name, dept, salary);
+                    manager.addEmployee(emp);
+                    System.out.println("Employee added successfully.");
+                    break;
+
+                case 2:
+                    manager.listEmployees();
+                    break;
+
+                case 3:
+                    System.out.print("Enter Employee ID: ");
+                    int empId = sc.nextInt();
+                    Employee found = manager.findEmployeeById(empId);
+                    if (found != null) {
+                        Payroll.generatePayslip(found);
+                    } else {
+                        System.out.println("Employee not found.");
+                    }
+                    break;
+
+                case 4:
+                    System.out.print("Enter Employee ID to remove: ");
+                    int removeId = sc.nextInt();
+                    manager.removeEmployee(removeId);
+                    System.out.println("Employee removed if existed.");
+                    break;
+
+                case 5:
+                    System.out.println("Exiting. Goodbye!");
+                    break;
+
+                default:
+                    System.out.println("Invalid choice.");
+            }
+        } while (choice != 5);
+
+        sc.close();
+    }
+}

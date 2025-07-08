@@ -1,0 +1,60 @@
+import java.io.*;
+import java.util.*;
+
+public class EmployeeManager {
+    private List<Employee> employees;
+    private final String fileName = "employees.csv";
+
+    public EmployeeManager() {
+        employees = new ArrayList<>();
+        loadEmployees();
+    }
+
+    public void addEmployee(Employee emp) {
+        employees.add(emp);
+        saveEmployees();
+    }
+
+    public void listEmployees() {
+        for (Employee emp : employees) {
+            System.out.println(emp.getId() + " | " + emp.getName() + " | " + emp.getDepartment() + " | " + emp.getBasicSalary());
+        }
+    }
+
+    public Employee findEmployeeById(int id) {
+        for (Employee emp : employees) {
+            if (emp.getId() == id) return emp;
+        }
+        return null;
+    }
+
+    public void removeEmployee(int id) {
+        employees.removeIf(emp -> emp.getId() == id);
+        saveEmployees();
+    }
+
+    public void saveEmployees() {
+        try (PrintWriter writer = new PrintWriter(new FileWriter(fileName))) {
+            for (Employee emp : employees) {
+                writer.println(emp.toString());
+            }
+        } catch (IOException e) {
+            System.out.println("Error saving employees: " + e.getMessage());
+        }
+    }
+
+    public void loadEmployees() {
+        employees.clear();
+        File file = new File(fileName);
+        if (!file.exists()) return;
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                employees.add(Employee.fromString(line));
+            }
+        } catch (IOException e) {
+            System.out.println("Error loading employees: " + e.getMessage());
+        }
+    }
+}

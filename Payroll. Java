@@ -1,0 +1,19 @@
+public class Payroll {
+    private static final double TAX_RATE = 0.1;  // 10% tax for example
+
+    public static double calculateNetSalary(Employee emp) {
+        double tax = emp.getBasicSalary() * TAX_RATE;
+        return emp.getBasicSalary() - tax;
+    }
+
+    public static void generatePayslip(Employee emp) {
+        double netSalary = calculateNetSalary(emp);
+        System.out.println("===== Payslip =====");
+        System.out.println("ID: " + emp.getId());
+        System.out.println("Name: " + emp.getName());
+        System.out.println("Department: " + emp.getDepartment());
+        System.out.println("Basic Salary: " + emp.getBasicSalary());
+        System.out.println("Tax Deducted: " + (emp.getBasicSalary() * TAX_RATE));
+        System.out.println("Net Salary: " + netSalary);
+    }
+}
